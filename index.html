@@ -220,15 +220,15 @@ const CONFIG = {
     world: {
         name: "SPL Sezon 4",
         shortName: "S4",
-        heroSubtitle: "Czwarty sezon prywatnego świata tworzonego przez społeczność PakoTeam. Państwa, wojny, sojusze i niezwykłe budowle — wszystko w jednym miejscu.",
+        heroSubtitle: "Czwarty sezon prywatnego świata tworzonego przez Pako.Survival oparty na państwach, wojnych, sojuszach i niezwykłych budowlach — wszystko w jednym miejscu.",
         aboutTitle: "Świat tworzony<br>przez graczy",
         aboutParagraphs: [
-            'SPL Sezon 4 to <strong class="text-blue-300">prywatny świat Minecraft</strong>, w którym każdy gracz prowadzi własne państwo, buduje miasta i kształtuje historię. To nie jest publiczny serwer — to zamknięty projekt dla społeczności <strong class="text-blue-300">PakoTeam</strong>.',
+            'SPL Sezon 4 to <strong class="text-blue-300">prywatny świat Minecraft</strong>, w którym jest 8 państw, buduje miasta i kształtuje historię. To nie jest publiczny serwer — to zamknięty projekt dla społeczności <strong class="text-blue-300">PakoTeam</strong>i nie tylko.',
             'Każdy sezon wprowadza nową mapę, nowe państwa i nowe historie. Sezon 4 kontynuuje tę tradycję, oferując jeszcze bardziej rozbudowany świat z unikalnymi państwami i skomplikowanymi relacjami dyplomatycznymi.',
             'Wszystkie państwa są prowadzone przez prawdziwych graczy. Każda decyzja, każda wojna i każdy sojusz wynikają z ich działań — nie ma tu skryptów ani z góry zaplanowanych wydarzeń.'
         ],
         aboutCards: [
-            { icon: "mdi:lock-outline",         title: "Prywatny świat",         desc: "Tylko dla członków PakoTeam" },
+            { icon: "mdi:lock-outline",         title: "Prywatny świat",         desc: "Tylko dla członków PakoTeam i także zweryfikowanych ludzi" },
             { icon: "mdi:account-group-outline", title: "Prowadzony przez graczy", desc: "Żadnych NPC, żywa historia" },
             { icon: "mdi:refresh",              title: "Ciągły rozwój",          desc: "Każdy sezon to nowy świat" },
             { icon: "mdi:scale-balance",        title: "Dyplomacja",             desc: "Wojny, sojusze, traktaty" }
@@ -253,107 +253,107 @@ const CONFIG = {
     // ─────────────────────────────────────────
     countries: [
         {
-            name: "Imperium Solarii",
-            style: "Średniowieczne / Imperialne",
-            coords: "X: 1200 Z: -800",
-            description: "Potężne imperium z wielką stolicą, potężnymi murami i rozbudowanym systemem zarządzania. Dominuje w handlu i dyplomacji.",
+            name: "Pakovia",
+            style: "Średniowieczne / Nowoczesny",
+            coords: "X: ___ Z: ___",
+            description: "Pakovia to państwo nastawione na handel, rozwój i rozbudowę imponujących budowli. Jego główną siedzibą jest starożytny zamek, który stanowi serce całego królestwa i symbol jego historii. Dzięki aktywnej gospodarce i współpracy z innymi państwami Pakovia dynamicznie się rozwija, łącząc tradycję z nowoczesną infrastrukturą.",
             bannerUrl: "https://picsum.photos/seed/imperium-solarii/800/400.jpg",
             members: [
-                { mc: "Solaris_I",    dc: "solaris",    role: "lider",     avatar: null },
-                { mc: "CzerwonyX",    dc: "czerwonyx",  role: "budowniczy", avatar: null },
-                { mc: "LadyAria",     dc: "ladyaria",   role: "dyplomata", avatar: null },
-                { mc: "IronForge",    dc: "ironforge",  role: "wojownik",  avatar: null }
+                { mc: "PakoYouTube",    dc: "pakoyoutube",    role: "lider",     avatar: null },
+                { mc: "CzerwonyX",    dc: "czerwonyx",  role: "członek", avatar: null },
+                { mc: "LadyAria",     dc: "ladyaria",   role: "członek", avatar: null },
+                { mc: "IronForge",    dc: "ironforge",  role: "członek",  avatar: null }
             ]
         },
         {
-            name: "Nordheim",
-            style: "Nordyckie / Wikingowie",
-            coords: "X: -2100 Z: 1500",
-            description: "Mroczne królestwo na północy. Drewniane longbary, lodowe fjordy i wojownicy wierzący w starożytne runy.",
+            name: "Polandria",
+            style: "Brak",
+            coords: "X: ___ Z: ___",
+            description: "Brak",
             bannerUrl: "https://picsum.photos/seed/nordheim-frost/800/400.jpg",
             members: [
-                { mc: "Jarl_Bjorn",   dc: "jarl",       role: "lider",     avatar: null },
-                { mc: "FrostBear",    dc: "frostbear",  role: "wojownik",  avatar: null },
-                { mc: "RunaSeid",     dc: "runaseid",   role: "budowniczy", avatar: null },
-                { mc: "WolfClaw",     dc: "wolfclaw",   role: "członek",   avatar: null }
+                { mc: "Oskar9D_Pro",  dc: "oskar9d_yt", role: "lider",     avatar: null },
+                { mc: "Brak",",      dc: "Brak",    role: "członek", avatar: null },
+                { mc: "Brak",   dc: "Brak", role: "wojownik",  avatar: null },
+                { mc: "Brak",    dc: "Brak",  role: "członek",   avatar: null }
             ]
         },
         {
-            name: "Valerath",
-            style: "Fantasy / Elfickie",
-            coords: "X: 2800 Z: 600",
-            description: "Zaczarowany las pełen wież z bielonego kamienia. Państwo mistyków i magów, żyjących w harmonii z naturą.",
+            name: "Wolne Państwo",
+            style: "Brak",
+            coords: "X: ___ Z: ___",
+            description: "Brak",
             bannerUrl: "https://picsum.photos/seed/valerath-elves/800/400.jpg",
             members: [
-                { mc: "Elara_Moon",   dc: "elara",      role: "lider",     avatar: null },
-                { mc: "Silvanis",     dc: "silvanis",   role: "budowniczy", avatar: null },
-                { mc: "Lyrien",       dc: "lyrien",     role: "członek",   avatar: null },
-                { mc: "Thornweave",   dc: "thornweave", role: "członek",   avatar: null }
+                { mc: "Brak",  dc: "Brak", role: "lider",     avatar: null },
+                { mc: "Brak",      dc: "Brak",    role: "członek", avatar: null },
+                { mc: "Brak",   dc: "Brak", role: "członek",  avatar: null },
+                { mc: "Brak",    dc: "Brak",  role: "członek",   avatar: null }
             ]
         },
         {
-            name: "Żelazne Królestwo",
-            style: "Ciemne Średniowiecze",
-            coords: "X: -500 Z: -1900",
-            description: "Surowe, industrialne państwo wulkanicznych terenów. Potężne fortele z czarnego kamienia i nielimitowane zapasy żelaza.",
-            bannerUrl: "https://picsum.photos/seed/zelazne-krolestwo-dark/800/400.jpg",
+            name: "Wolne Państwo",
+            style: "Brak",
+            coords: "X: ___ Z: ___",
+            description: "Brak",
+            bannerUrl: "https://picsum.photos/seed/valerath-elves/800/400.jpg",
             members: [
-                { mc: "Krol_Zelaza",  dc: "krolzelaza", role: "lider",     avatar: null },
-                { mc: "Smelter",      dc: "smelter",    role: "budowniczy", avatar: null },
-                { mc: "DarkHammer",   dc: "darkhammer", role: "wojownik",  avatar: null },
-                { mc: "Anvilborn",    dc: "anvilborn",  role: "członek",   avatar: null }
+                { mc: "Brak",  dc: "Brak", role: "lider",     avatar: null },
+                { mc: "Brak",      dc: "Brak",    role: "członek", avatar: null },
+                { mc: "Brak",   dc: "Brak", role: "członek",  avatar: null },
+                { mc: "Brak",    dc: "Brak",  role: "członek",   avatar: null }
             ]
         },
         {
-            name: "Republika Nova",
-            style: "Nowoczesne / Steampunk",
-            coords: "X: 800 Z: 2200",
-            description: "Najbardziej zaawansowane technologicznie państwo. Wieżowce, automaty i nowoczesna infrastruktura wyróżniają je na mapie.",
-            bannerUrl: "https://picsum.photos/seed/republika-nova-modern/800/400.jpg",
+            name: "Wolne Państwo",
+            style: "Brak",
+            coords: "X: ___ Z: ___",
+            description: "Brak",
+            bannerUrl: "https://picsum.photos/seed/valerath-elves/800/400.jpg",
             members: [
-                { mc: "President_Nova", dc: "presidentnova", role: "lider",     avatar: null },
-                { mc: "ArchitectX",    dc: "architectx",    role: "budowniczy", avatar: null },
-                { mc: "GearMaster",    dc: "gearmaster",    role: "budowniczy", avatar: null },
-                { mc: "Lumina",        dc: "lumina",        role: "dyplomata",  avatar: null }
+                { mc: "Brak",  dc: "Brak", role: "lider",     avatar: null },
+                { mc: "Brak",      dc: "Brak",    role: "członek", avatar: null },
+                { mc: "Brak",   dc: "Brak", role: "członek",  avatar: null },
+                { mc: "Brak",    dc: "Brak",  role: "członek",   avatar: null }
             ]
         },
         {
-            name: "Księstwo Thornwall",
-            style: "Gotyckie / Zamkowe",
-            coords: "X: -1800 Z: -400",
-            description: "Mroczne księstwo z potężnym zamkiem na klifie. Gotyckie architektury, tajemnicze katedry i sieć podziemnych tuneli.",
-            bannerUrl: "https://picsum.photos/seed/thornwall-gothic/800/400.jpg",
+            name: "Wolne Państwo",
+            style: "Brak",
+            coords: "X: ___ Z: ___",
+            description: "Brak",
+            bannerUrl: "https://picsum.photos/seed/valerath-elves/800/400.jpg",
             members: [
-                { mc: "Duke_Thorn",   dc: "dukethorn",  role: "lider",     avatar: null },
-                { mc: "Gargoyle",     dc: "gargoyle",   role: "wojownik",  avatar: null },
-                { mc: "NightShade",   dc: "nightshade", role: "budowniczy", avatar: null },
-                { mc: "Ravencrest",   dc: "ravencrest", role: "członek",   avatar: null }
+                { mc: "Brak",  dc: "Brak", role: "lider",     avatar: null },
+                { mc: "Brak",      dc: "Brak",    role: "członek", avatar: null },
+                { mc: "Brak",   dc: "Brak", role: "członek",  avatar: null },
+                { mc: "Brak",    dc: "Brak",  role: "członek",   avatar: null }
             ]
         },
         {
-            name: "Pustynne Emiraty",
-            style: "Pustynne / Arabskie",
-            coords: "X: 3200 Z: -1500",
-            description: "Złote pałace wznoszące się z piasków. Bogate państwo kontrolujące szlaki handlowe przez pustynię.",
-            bannerUrl: "https://picsum.photos/seed/pustynne-emiraty-desert/800/400.jpg",
+            name: "Wolne Państwo",
+            style: "Brak",
+            coords: "X: ___ Z: ___",
+            description: "Brak",
+            bannerUrl: "https://picsum.photos/seed/valerath-elves/800/400.jpg",
             members: [
-                { mc: "Sheikh_Sand",  dc: "sheikhsand",  role: "lider",     avatar: null },
-                { mc: "DuneRider",    dc: "dunerider",   role: "wojownik",  avatar: null },
-                { mc: "OasisKeeper",  dc: "oasiskeeper", role: "budowniczy", avatar: null },
-                { mc: "SandStorm",    dc: "sandstorm",   role: "członek",   avatar: null }
+                { mc: "Brak",  dc: "Brak", role: "lider",     avatar: null },
+                { mc: "Brak",      dc: "Brak",    role: "członek", avatar: null },
+                { mc: "Brak",   dc: "Brak", role: "członek",  avatar: null },
+                { mc: "Brak",    dc: "Brak",  role: "członek",   avatar: null }
             ]
         },
         {
-            name: "Wyspa Drakonii",
-            style: "Wulkaniczne / Mityczne",
-            coords: "X: -3000 Z: 800",
-            description: "Odizolowana wyspa z aktywnym wulkanem. Mityczne budowle z obsydianu i lawy, pilnowane przez drakoniczną gwardię.",
-            bannerUrl: "https://picsum.photos/seed/wyspa-drakonii-volcano/800/400.jpg",
+            name: "Wolne Państwo",
+            style: "Brak",
+            coords: "X: ___ Z: ___",
+            description: "Brak",
+            bannerUrl: "https://picsum.photos/seed/valerath-elves/800/400.jpg",
             members: [
-                { mc: "DragonLord",   dc: "dragonlord", role: "lider",     avatar: null },
-                { mc: "Ember",        dc: "ember",      role: "wojownik",  avatar: null },
-                { mc: "LavaScale",    dc: "lavascale",  role: "budowniczy", avatar: null },
-                { mc: "AshBorn",      dc: "ashborn",    role: "członek",   avatar: null }
+                { mc: "Brak",  dc: "Brak", role: "lider",     avatar: null },
+                { mc: "Brak",      dc: "Brak",    role: "członek", avatar: null },
+                { mc: "Brak",   dc: "Brak", role: "członek",  avatar: null },
+                { mc: "Brak",    dc: "Brak",  role: "członek",   avatar: null }
             ]
         }
     ],
@@ -362,15 +362,7 @@ const CONFIG = {
     // 🖼️ GALERIA — dodawaj/usuwaj zdjęcia
     // ─────────────────────────────────────────
     gallery: [
-        { url: "https://picsum.photos/seed/spl4-stolica/800/500.jpg",        alt: "Stolica Imperium" },
-        { url: "https://picsum.photos/seed/spl4-nordheim-view/800/500.jpg",  alt: "Widok na Nordheim" },
-        { url: "https://picsum.photos/seed/spl4-valerath-forest/800/500.jpg",alt: "Las Valerath" },
-        { url: "https://picsum.photos/seed/spl4-castle-gothic/800/500.jpg",  alt: "Zamek Thornwall" },
-        { url: "https://picsum.photos/seed/spl4-desert-palace/800/500.jpg",  alt: "Pałac Emiratów" },
-        { url: "https://picsum.photos/seed/spl4-volcano-dragon/800/500.jpg", alt: "Wulkan Drakonii" },
-        { url: "https://picsum.photos/seed/spl4-iron-fortress/800/500.jpg",  alt: "Forteca Żelaznego Królestwa" },
-        { url: "https://picsum.photos/seed/spl4-nova-city/800/500.jpg",      alt: "Miasto Nova" },
-        { url: "https://picsum.photos/seed/spl4-battlefield/800/500.jpg",    alt: "Pole bitwy" }
+        { url: "https://picsum.photos/seed/spl4-stolica/800/500.jpg",        alt: "Start Serwera SPL" },
     ],
 
     // ─────────────────────────────────────────
@@ -380,7 +372,7 @@ const CONFIG = {
         { label: "O Świecie",   href: "#about" },
         { label: "Państwa",     href: "#countries" },
         { label: "Mapa",        href: "#map" },
-        { label: "Galeria",     href: "#gallery" }
+        { label: "Galeria - Najlepsze Momenty SPL",     href: "#gallery" }
     ]
 };
 
