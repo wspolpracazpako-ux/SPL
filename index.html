@@ -1,1 +1,695 @@
-<h1> siema <h1>
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPL Sezon 4 — Prywatny Świat Minecraft</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: { 50:'#f0f4f8',100:'#d9e2ec',200:'#bcccdc',300:'#9fb3c8',400:'#829ab1',500:'#627d98',600:'#486581',700:'#334e68',800:'#243b53',900:'#102a43',950:'#0a1929' },
+                        accent: { 50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e40af',900:'#1e3a8a',950:'#172554' }
+                    },
+                    fontFamily: { sans: ['Inter','sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        ::selection{background:rgba(59,130,246,0.3);color:#eff6ff}
+        body{font-family:'Inter',sans-serif;background:#050a18;color:#e2e8f0;overflow-x:hidden}
+        ::-webkit-scrollbar{width:8px}
+        ::-webkit-scrollbar-track{background:#0a1929}
+        ::-webkit-scrollbar-thumb{background:#1e3a8a;border-radius:4px}
+        ::-webkit-scrollbar-thumb:hover{background:#2563eb}
+
+        #particles-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+        .nav-glass{background:rgba(5,10,24,0.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(59,130,246,0.08);transition:all 0.3s}
+        .nav-link{position:relative;color:#94a3b8;transition:color 0.3s}
+        .nav-link:hover,.nav-link.active{color:#60a5fa}
+        .nav-link::after{content:'';position:absolute;bottom:-4px;left:50%;width:0;height:2px;background:#3b82f6;transition:all 0.3s;transform:translateX(-50%);border-radius:1px}
+        .nav-link:hover::after,.nav-link.active::after{width:100%}
+
+        .hero-bg{background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(30,58,138,0.4) 0%,rgba(5,10,24,0) 70%),radial-gradient(ellipse 60% 40% at 80% 50%,rgba(59,130,246,0.08) 0%,transparent 70%),radial-gradient(ellipse 60% 40% at 20% 80%,rgba(30,64,175,0.06) 0%,transparent 70%)}
+        .hero-title{background:linear-gradient(135deg,#ffffff 0%,#93c5fd 50%,#3b82f6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,0.12) 0%,transparent 70%);pointer-events:none;animation:heroGlow 8s ease-in-out infinite}
+        @keyframes heroGlow{0%,100%{transform:scale(1);opacity:0.6}50%{transform:scale(1.2);opacity:1}}
+
+        .btn-primary{position:relative;display:inline-flex;align-items:center;gap:10px;padding:16px 36px;background:linear-gradient(135deg,#1d4ed8 0%,#2563eb 50%,#3b82f6 100%);color:#fff;font-weight:600;font-size:15px;border-radius:12px;border:1px solid rgba(96,165,250,0.3);cursor:pointer;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);box-shadow:0 0 30px rgba(59,130,246,0.2),0 4px 15px rgba(0,0,0,0.3);text-decoration:none;overflow:hidden}
+        .btn-primary::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);transition:left 0.6s}
+        .btn-primary:hover::before{left:100%}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 0 50px rgba(59,130,246,0.35),0 8px 25px rgba(0,0,0,0.4);border-color:rgba(96,165,250,0.5)}
+        .btn-primary:active{transform:translateY(-1px)}
+
+        .btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:rgba(30,58,138,0.2);color:#93c5fd;font-weight:500;font-size:14px;border-radius:10px;border:1px solid rgba(59,130,246,0.2);cursor:pointer;transition:all 0.3s;text-decoration:none}
+        .btn-secondary:hover{background:rgba(30,58,138,0.4);border-color:rgba(59,130,246,0.4);transform:translateY(-2px);box-shadow:0 0 20px rgba(59,130,246,0.15)}
+
+        .country-card{background:linear-gradient(160deg,rgba(15,23,42,0.95) 0%,rgba(10,25,41,0.98) 100%);border:1px solid rgba(59,130,246,0.07);border-radius:20px;overflow:hidden;transition:all 0.5s cubic-bezier(0.4,0,0.2,1);position:relative;display:flex;flex-direction:column}
+        .country-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,0),transparent);transition:all 0.5s;z-index:2}
+        .country-card:hover{transform:translateY(-6px);border-color:rgba(59,130,246,0.22);box-shadow:0 0 50px rgba(59,130,246,0.08),0 24px 48px rgba(0,0,0,0.4)}
+        .country-card:hover::before{background:linear-gradient(90deg,transparent,rgba(59,130,246,0.5),transparent)}
+        .country-card .card-banner{width:100%;height:200px;object-fit:cover;transition:transform 0.7s}
+        .country-card:hover .card-banner{transform:scale(1.04)}
+        .card-banner-wrap{overflow:hidden;position:relative;flex-shrink:0}
+        .card-banner-wrap::after{content:'';position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to top,rgba(10,25,41,0.98),transparent);z-index:1}
+        .card-body{padding:24px 28px 28px;display:flex;flex-direction:column;flex:1}
+
+        .member-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;transition:background 0.25s;border:1px solid transparent}
+        .member-row:hover{background:rgba(59,130,246,0.04);border-color:rgba(59,130,246,0.06)}
+        .member-avatar{width:36px;height:36px;border-radius:10px;flex-shrink:0;overflow:hidden;border:1px solid rgba(59,130,246,0.15);background:rgba(59,130,246,0.08);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#60a5fa}
+        .member-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+        .member-info{flex:1;min-width:0}
+        .member-mc{font-weight:600;font-size:13px;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .member-dc{font-size:11px;color:#64748b;font-family:'Courier New',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .member-role{flex-shrink:0;padding:3px 10px;border-radius:6px;font-size:10px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;white-space:nowrap}
+        .role-leader{background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.15)}
+        .role-builder{background:rgba(59,130,246,0.08);color:#60a5fa;border:1px solid rgba(59,130,246,0.12)}
+        .role-member{background:rgba(148,163,184,0.08);color:#94a3b8;border:1px solid rgba(148,163,184,0.1)}
+        .role-warrior{background:rgba(239,68,68,0.08);color:#f87171;border:1px solid rgba(239,68,68,0.12)}
+        .role-diplomat{background:rgba(168,85,247,0.08);color:#c084fc;border:1px solid rgba(168,85,247,0.12)}
+
+        .stat-card{background:linear-gradient(145deg,rgba(15,23,42,0.8) 0%,rgba(10,25,41,0.9) 100%);border:1px solid rgba(59,130,246,0.1);border-radius:16px;padding:32px;transition:all 0.4s;position:relative;overflow:hidden}
+        .stat-card::after{content:'';position:absolute;top:-50%;right:-50%;width:100%;height:100%;background:radial-gradient(circle,rgba(59,130,246,0.05) 0%,transparent 70%);transition:all 0.5s}
+        .stat-card:hover{border-color:rgba(59,130,246,0.2);transform:translateY(-4px);box-shadow:0 0 30px rgba(59,130,246,0.08)}
+        .stat-card:hover::after{top:-30%;right:-30%}
+
+        .gallery-item{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;aspect-ratio:16/10}
+        .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1)}
+        .gallery-item:hover img{transform:scale(1.08)}
+        .gallery-item::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(5,10,24,0.6) 0%,transparent 50%);opacity:0;transition:opacity 0.4s}
+        .gallery-item:hover::after{opacity:1}
+        .gallery-item .zoom-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.8);opacity:0;transition:all 0.4s;z-index:2;color:#fff}
+        .gallery-item:hover .zoom-icon{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+        .lightbox{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.92);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all 0.4s;cursor:zoom-out}
+        .lightbox.active{opacity:1;visibility:visible}
+        .lightbox img{max-width:90vw;max-height:85vh;border-radius:8px;box-shadow:0 25px 80px rgba(0,0,0,0.6);transform:scale(0.9);transition:transform 0.4s cubic-bezier(0.4,0,0.2,1)}
+        .lightbox.active img{transform:scale(1)}
+        .lightbox-close{position:absolute;top:24px;right:24px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s;font-size:20px}
+        .lightbox-close:hover{background:rgba(255,255,255,0.2)}
+
+        .section-label{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.15);border-radius:100px;color:#60a5fa;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase}
+        .section-title{font-size:36px;font-weight:800;color:#f1f5f9;line-height:1.2;letter-spacing:-0.02em}
+        .section-desc{color:#64748b;font-size:16px;line-height:1.7;max-width:640px}
+        .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,0.15),transparent)}
+
+        .reveal{opacity:0;transform:translateY(40px);transition:all 0.8s cubic-bezier(0.4,0,0.2,1)}
+        .reveal.visible{opacity:1;transform:translateY(0)}
+        .reveal-delay-1{transition-delay:0.1s}
+        .reveal-delay-2{transition-delay:0.2s}
+        .reveal-delay-3{transition-delay:0.3s}
+        .reveal-delay-4{transition-delay:0.4s}
+        .reveal-delay-5{transition-delay:0.5s}
+        .reveal-delay-6{transition-delay:0.6s}
+        .reveal-delay-7{transition-delay:0.7s}
+
+        .mobile-menu{position:fixed;inset:0;z-index:90;background:rgba(5,10,24,0.97);backdrop-filter:blur(20px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;opacity:0;visibility:hidden;transition:all 0.4s}
+        .mobile-menu.active{opacity:1;visibility:visible}
+        .mobile-menu a{font-size:24px;font-weight:600;color:#94a3b8;transition:color 0.3s;text-decoration:none}
+        .mobile-menu a:hover{color:#60a5fa}
+
+        .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:100;padding:8px}
+        .hamburger span{width:24px;height:2px;background:#94a3b8;transition:all 0.3s;border-radius:2px}
+        .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px);background:#60a5fa}
+        .hamburger.active span:nth-child(2){opacity:0}
+        .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);background:#60a5fa}
+
+        @media(max-width:768px){
+            .hamburger{display:flex}
+            .nav-links{display:none !important}
+            .section-title{font-size:28px}
+            .hero-title{font-size:42px !important}
+            .card-body{padding:20px}
+        }
+
+        .style-tag{display:inline-block;padding:4px 12px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.15);border-radius:6px;font-size:11px;font-weight:600;color:#60a5fa;letter-spacing:0.04em;text-transform:uppercase}
+        .coords{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.15);border-radius:6px;font-size:12px;font-weight:500;color:#34d399;font-family:'Courier New',monospace}
+
+        .float-1{animation:float1 6s ease-in-out infinite}
+        .float-2{animation:float2 8s ease-in-out infinite}
+        @keyframes float1{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+        @keyframes float2{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-10px) rotate(3deg)}}
+
+        .grid-bg{background-image:linear-gradient(rgba(59,130,246,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.03) 1px,transparent 1px);background-size:60px 60px}
+
+        .members-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,0.1),transparent);margin:16px 0 12px}
+        .members-label{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#475569;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+    </style>
+</head>
+<body class="grid-bg">
+
+<canvas id="particles-canvas"></canvas>
+
+<nav class="nav-glass fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <a href="#hero" class="flex items-center gap-3 no-underline" id="nav-logo"></a>
+        <div class="nav-links flex items-center gap-8" id="nav-links" style="display:flex"></div>
+        <div class="hamburger" id="hamburger" onclick="toggleMobile()">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu"></div>
+
+<section id="hero" class="hero-bg relative min-h-screen flex items-center justify-center px-6 pt-16">
+    <div class="hero-glow" style="top:10%;left:30%"></div>
+    <div class="hero-glow" style="top:40%;right:10%;animation-delay:-4s"></div>
+    <div class="relative z-10 text-center max-w-4xl mx-auto" id="hero-content"></div>
+</section>
+
+<section id="about" class="relative py-24 md:py-32 px-6">
+    <div class="divider max-w-7xl mx-auto mb-24"></div>
+    <div class="max-w-7xl mx-auto" id="about-content"></div>
+</section>
+
+<section id="countries" class="relative py-24 md:py-32 px-6">
+    <div class="divider max-w-7xl mx-auto mb-24"></div>
+    <div class="max-w-7xl mx-auto" id="countries-content"></div>
+</section>
+
+<section id="map" class="relative py-24 md:py-32 px-6">
+    <div class="divider max-w-7xl mx-auto mb-24"></div>
+    <div class="max-w-4xl mx-auto text-center" id="map-content"></div>
+</section>
+
+<section id="gallery" class="relative py-24 md:py-32 px-6">
+    <div class="divider max-w-7xl mx-auto mb-24"></div>
+    <div class="max-w-7xl mx-auto" id="gallery-content"></div>
+</section>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">
+        <iconify-icon icon="mdi:close" width="22"></iconify-icon>
+    </button>
+    <img id="lightbox-img" src="" alt="">
+</div>
+
+<footer class="relative py-16 px-6 border-t border-slate-800/50" id="footer-content"></footer>
+
+
+<!-- ================================================================ -->
+<!--                                                                   -->
+<!--   ██████╗  █████╗ ███╗   ██╗██████╗                             -->
+<!--   ██╔══██╗██╔══██╝████╗  ██║██╔══██╗                            -->
+<!--   ██║  ██║███████║██╔██╗ ██║██║  ██║                            -->
+<!--   ██║  ██║██╔══██║██║╚██╗██║██║  ██║                            -->
+<!--   ██████╔╝██║  ██║██║ ╚████║██████╔╝                            -->
+<!--   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝                             -->
+<!--                                                                   -->
+<!--   JEDYNE MIEJSCE DO EDYCJI DANYCH                                -->
+<!--   ZMIEŃ COŚ TUTAJ → ZMIENI SIĘ NA CAŁEJ STRONIE                  -->
+<!--                                                                   -->
+<!-- ================================================================ -->
+
+<script>
+const CONFIG = {
+
+    // ─────────────────────────────────────────
+    // 📌 PODSTAWOWE INFORMACJE
+    // ─────────────────────────────────────────
+    world: {
+        name: "SPL Sezon 4",
+        shortName: "S4",
+        heroSubtitle: "Czwarty sezon prywatnego świata tworzonego przez społeczność PakoTeam. Państwa, wojny, sojusze i niezwykłe budowle — wszystko w jednym miejscu.",
+        aboutTitle: "Świat tworzony<br>przez graczy",
+        aboutParagraphs: [
+            'SPL Sezon 4 to <strong class="text-blue-300">prywatny świat Minecraft</strong>, w którym każdy gracz prowadzi własne państwo, buduje miasta i kształtuje historię. To nie jest publiczny serwer — to zamknięty projekt dla społeczności <strong class="text-blue-300">PakoTeam</strong>.',
+            'Każdy sezon wprowadza nową mapę, nowe państwa i nowe historie. Sezon 4 kontynuuje tę tradycję, oferując jeszcze bardziej rozbudowany świat z unikalnymi państwami i skomplikowanymi relacjami dyplomatycznymi.',
+            'Wszystkie państwa są prowadzone przez prawdziwych graczy. Każda decyzja, każda wojna i każdy sojusz wynikają z ich działań — nie ma tu skryptów ani z góry zaplanowanych wydarzeń.'
+        ],
+        aboutCards: [
+            { icon: "mdi:lock-outline",         title: "Prywatny świat",         desc: "Tylko dla członków PakoTeam" },
+            { icon: "mdi:account-group-outline", title: "Prowadzony przez graczy", desc: "Żadnych NPC, żywa historia" },
+            { icon: "mdi:refresh",              title: "Ciągły rozwój",          desc: "Każdy sezon to nowy świat" },
+            { icon: "mdi:scale-balance",        title: "Dyplomacja",             desc: "Wojny, sojusze, traktaty" }
+        ]
+    },
+
+    // ─────────────────────────────────────────
+    // 🔗 LINKI
+    // ─────────────────────────────────────────
+    links: {
+        mapUrl: "https://twoj-link-do-mapy.pl"  // ✏️ ZMIEŃ LINK DO MAPY
+    },
+
+    // ─────────────────────────────────────────
+    // 🏳️ PAŃSTWA (8 sztuk)
+    //
+    // Każdy członek ma pola:
+    //   mc     — nick Minecraft
+    //   dc     — nick Discord (lub null jeśli brak)
+    //   role   — rola: "lider" | "budowniczy" | "wojownik" | "dyplomata" | "członek"
+    //   avatar — URL do avatara (lub null — wtedy pokaże się pierwsza litera MC nicku)
+    // ─────────────────────────────────────────
+    countries: [
+        {
+            name: "Imperium Solarii",
+            style: "Średniowieczne / Imperialne",
+            coords: "X: 1200 Z: -800",
+            description: "Potężne imperium z wielką stolicą, potężnymi murami i rozbudowanym systemem zarządzania. Dominuje w handlu i dyplomacji.",
+            bannerUrl: "https://picsum.photos/seed/imperium-solarii/800/400.jpg",
+            members: [
+                { mc: "Solaris_I",    dc: "solaris",    role: "lider",     avatar: null },
+                { mc: "CzerwonyX",    dc: "czerwonyx",  role: "budowniczy", avatar: null },
+                { mc: "LadyAria",     dc: "ladyaria",   role: "dyplomata", avatar: null },
+                { mc: "IronForge",    dc: "ironforge",  role: "wojownik",  avatar: null }
+            ]
+        },
+        {
+            name: "Nordheim",
+            style: "Nordyckie / Wikingowie",
+            coords: "X: -2100 Z: 1500",
+            description: "Mroczne królestwo na północy. Drewniane longbary, lodowe fjordy i wojownicy wierzący w starożytne runy.",
+            bannerUrl: "https://picsum.photos/seed/nordheim-frost/800/400.jpg",
+            members: [
+                { mc: "Jarl_Bjorn",   dc: "jarl",       role: "lider",     avatar: null },
+                { mc: "FrostBear",    dc: "frostbear",  role: "wojownik",  avatar: null },
+                { mc: "RunaSeid",     dc: "runaseid",   role: "budowniczy", avatar: null },
+                { mc: "WolfClaw",     dc: "wolfclaw",   role: "członek",   avatar: null }
+            ]
+        },
+        {
+            name: "Valerath",
+            style: "Fantasy / Elfickie",
+            coords: "X: 2800 Z: 600",
+            description: "Zaczarowany las pełen wież z bielonego kamienia. Państwo mistyków i magów, żyjących w harmonii z naturą.",
+            bannerUrl: "https://picsum.photos/seed/valerath-elves/800/400.jpg",
+            members: [
+                { mc: "Elara_Moon",   dc: "elara",      role: "lider",     avatar: null },
+                { mc: "Silvanis",     dc: "silvanis",   role: "budowniczy", avatar: null },
+                { mc: "Lyrien",       dc: "lyrien",     role: "członek",   avatar: null },
+                { mc: "Thornweave",   dc: "thornweave", role: "członek",   avatar: null }
+            ]
+        },
+        {
+            name: "Żelazne Królestwo",
+            style: "Ciemne Średniowiecze",
+            coords: "X: -500 Z: -1900",
+            description: "Surowe, industrialne państwo wulkanicznych terenów. Potężne fortele z czarnego kamienia i nielimitowane zapasy żelaza.",
+            bannerUrl: "https://picsum.photos/seed/zelazne-krolestwo-dark/800/400.jpg",
+            members: [
+                { mc: "Krol_Zelaza",  dc: "krolzelaza", role: "lider",     avatar: null },
+                { mc: "Smelter",      dc: "smelter",    role: "budowniczy", avatar: null },
+                { mc: "DarkHammer",   dc: "darkhammer", role: "wojownik",  avatar: null },
+                { mc: "Anvilborn",    dc: "anvilborn",  role: "członek",   avatar: null }
+            ]
+        },
+        {
+            name: "Republika Nova",
+            style: "Nowoczesne / Steampunk",
+            coords: "X: 800 Z: 2200",
+            description: "Najbardziej zaawansowane technologicznie państwo. Wieżowce, automaty i nowoczesna infrastruktura wyróżniają je na mapie.",
+            bannerUrl: "https://picsum.photos/seed/republika-nova-modern/800/400.jpg",
+            members: [
+                { mc: "President_Nova", dc: "presidentnova", role: "lider",     avatar: null },
+                { mc: "ArchitectX",    dc: "architectx",    role: "budowniczy", avatar: null },
+                { mc: "GearMaster",    dc: "gearmaster",    role: "budowniczy", avatar: null },
+                { mc: "Lumina",        dc: "lumina",        role: "dyplomata",  avatar: null }
+            ]
+        },
+        {
+            name: "Księstwo Thornwall",
+            style: "Gotyckie / Zamkowe",
+            coords: "X: -1800 Z: -400",
+            description: "Mroczne księstwo z potężnym zamkiem na klifie. Gotyckie architektury, tajemnicze katedry i sieć podziemnych tuneli.",
+            bannerUrl: "https://picsum.photos/seed/thornwall-gothic/800/400.jpg",
+            members: [
+                { mc: "Duke_Thorn",   dc: "dukethorn",  role: "lider",     avatar: null },
+                { mc: "Gargoyle",     dc: "gargoyle",   role: "wojownik",  avatar: null },
+                { mc: "NightShade",   dc: "nightshade", role: "budowniczy", avatar: null },
+                { mc: "Ravencrest",   dc: "ravencrest", role: "członek",   avatar: null }
+            ]
+        },
+        {
+            name: "Pustynne Emiraty",
+            style: "Pustynne / Arabskie",
+            coords: "X: 3200 Z: -1500",
+            description: "Złote pałace wznoszące się z piasków. Bogate państwo kontrolujące szlaki handlowe przez pustynię.",
+            bannerUrl: "https://picsum.photos/seed/pustynne-emiraty-desert/800/400.jpg",
+            members: [
+                { mc: "Sheikh_Sand",  dc: "sheikhsand",  role: "lider",     avatar: null },
+                { mc: "DuneRider",    dc: "dunerider",   role: "wojownik",  avatar: null },
+                { mc: "OasisKeeper",  dc: "oasiskeeper", role: "budowniczy", avatar: null },
+                { mc: "SandStorm",    dc: "sandstorm",   role: "członek",   avatar: null }
+            ]
+        },
+        {
+            name: "Wyspa Drakonii",
+            style: "Wulkaniczne / Mityczne",
+            coords: "X: -3000 Z: 800",
+            description: "Odizolowana wyspa z aktywnym wulkanem. Mityczne budowle z obsydianu i lawy, pilnowane przez drakoniczną gwardię.",
+            bannerUrl: "https://picsum.photos/seed/wyspa-drakonii-volcano/800/400.jpg",
+            members: [
+                { mc: "DragonLord",   dc: "dragonlord", role: "lider",     avatar: null },
+                { mc: "Ember",        dc: "ember",      role: "wojownik",  avatar: null },
+                { mc: "LavaScale",    dc: "lavascale",  role: "budowniczy", avatar: null },
+                { mc: "AshBorn",      dc: "ashborn",    role: "członek",   avatar: null }
+            ]
+        }
+    ],
+
+    // ─────────────────────────────────────────
+    // 🖼️ GALERIA — dodawaj/usuwaj zdjęcia
+    // ─────────────────────────────────────────
+    gallery: [
+        { url: "https://picsum.photos/seed/spl4-stolica/800/500.jpg",        alt: "Stolica Imperium" },
+        { url: "https://picsum.photos/seed/spl4-nordheim-view/800/500.jpg",  alt: "Widok na Nordheim" },
+        { url: "https://picsum.photos/seed/spl4-valerath-forest/800/500.jpg",alt: "Las Valerath" },
+        { url: "https://picsum.photos/seed/spl4-castle-gothic/800/500.jpg",  alt: "Zamek Thornwall" },
+        { url: "https://picsum.photos/seed/spl4-desert-palace/800/500.jpg",  alt: "Pałac Emiratów" },
+        { url: "https://picsum.photos/seed/spl4-volcano-dragon/800/500.jpg", alt: "Wulkan Drakonii" },
+        { url: "https://picsum.photos/seed/spl4-iron-fortress/800/500.jpg",  alt: "Forteca Żelaznego Królestwa" },
+        { url: "https://picsum.photos/seed/spl4-nova-city/800/500.jpg",      alt: "Miasto Nova" },
+        { url: "https://picsum.photos/seed/spl4-battlefield/800/500.jpg",    alt: "Pole bitwy" }
+    ],
+
+    // ─────────────────────────────────────────
+    // 🧭 ELEMENTY NAWIGACJI
+    // ─────────────────────────────────────────
+    navItems: [
+        { label: "O Świecie",   href: "#about" },
+        { label: "Państwa",     href: "#countries" },
+        { label: "Mapa",        href: "#map" },
+        { label: "Galeria",     href: "#gallery" }
+    ]
+};
+
+/* ============================================
+   KONIEC CONFIG — NIE EDYTUJ PONIŻEJ
+   JEŚLI NIE WIESZ CO ROBISZ
+   ============================================ */
+
+
+// ─────────────────────────────────────────────
+// POMOCNIK: RENDEROWANIE AVATARA CZŁONKA
+// ─────────────────────────────────────────────
+function renderAvatar(member) {
+    if (member.avatar) {
+        return '<div class="member-avatar"><img src="' + member.avatar + '" alt="' + member.mc + '"></div>';
+    }
+    const letter = member.mc.charAt(0).toUpperCase();
+    return '<div class="member-avatar">' + letter + '</div>';
+}
+
+// ─────────────────────────────────────────────
+// POMOCNIK: KLASA ROLI
+// ─────────────────────────────────────────────
+function roleClass(role) {
+    const map = {
+        'lider':     'role-leader',
+        'budowniczy':'role-builder',
+        'wojownik':  'role-warrior',
+        'dyplomata': 'role-diplomat',
+        'członek':   'role-member'
+    };
+    return map[role] || 'role-member';
+}
+
+// ─────────────────────────────────────────────
+// POMOCNIK: ETYKIETA ROLI
+// ─────────────────────────────────────────────
+function roleLabel(role) {
+    const map = {
+        'lider':     'Lider',
+        'budowniczy':'Budowniczy',
+        'wojownik':  'Wojownik',
+        'dyplomata': 'Dyplomata',
+        'członek':   'Członek'
+    };
+    return map[role] || 'Członek';
+}
+
+
+// ─────────────────────────────────────────────
+// RENDEROWANIE CAŁEJ STRONY
+// ─────────────────────────────────────────────
+(function renderAll() {
+    const W = CONFIG.world;
+    const L = CONFIG.links;
+
+    // ── NAV LOGO ──
+    document.getElementById('nav-logo').innerHTML =
+        '<div class="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-blue-500/20">' + W.shortName + '</div>' +
+        '<span class="font-bold text-white text-lg tracking-tight hidden sm:inline">' + W.name + '</span>';
+
+    // ── NAV LINKS ──
+    document.getElementById('nav-links').innerHTML = CONFIG.navItems.map(function(n) {
+        return '<a href="' + n.href + '" class="nav-link text-sm font-medium">' + n.label + '</a>';
+    }).join('');
+
+    // ── MOBILE MENU ──
+    document.getElementById('mobileMenu').innerHTML = CONFIG.navItems.map(function(n) {
+        return '<a href="' + n.href + '" onclick="closeMobile()">' + n.label + '</a>';
+    }).join('');
+
+    // ── HERO ──
+    document.getElementById('hero-content').innerHTML =
+        '<div class="reveal"><span class="section-label mb-6 inline-flex"><iconify-icon icon="mdi:sword-cross" width="14"></iconify-icon>Prywatny Świat Minecraft</span></div>' +
+        '<h1 class="hero-title reveal reveal-delay-1" style="font-size:72px;font-weight:900;line-height:1.05;letter-spacing:-0.04em;margin-bottom:24px">' + W.name + '</h1>' +
+        '<p class="text-slate-400 reveal reveal-delay-2 text-lg md:text-xl max-w-2xl mx-auto mb-10" style="line-height:1.7">' + W.heroSubtitle + '</p>' +
+        '<div class="reveal reveal-delay-3 flex flex-col sm:flex-row items-center justify-center gap-4">' +
+            '<a href="' + L.mapUrl + '" target="_blank" class="btn-primary"><iconify-icon icon="mdi:map-marker-radius" width="20"></iconify-icon>Zobacz Mapę Świata</a>' +
+            '<a href="#countries" class="btn-secondary"><iconify-icon icon="mdi:flag-variant" width="18"></iconify-icon>Odkryj Państwa</a>' +
+        '</div>' +
+        '<div class="reveal reveal-delay-4 mt-16 animate-bounce"><iconify-icon icon="mdi:chevron-double-down" width="28" style="color:rgba(96,165,250,0.4)"></iconify-icon></div>';
+
+    // ── ABOUT ──
+    var floats = ['float-1','float-2','float-2','float-1'];
+    document.getElementById('about-content').innerHTML =
+        '<div class="grid lg:grid-cols-2 gap-16 items-center">' +
+            '<div>' +
+                '<span class="section-label reveal mb-6 inline-flex"><iconify-icon icon="mdi:information-outline" width="14"></iconify-icon>O Projekcie</span>' +
+                '<h2 class="section-title reveal reveal-delay-1 mb-6">' + W.aboutTitle + '</h2>' +
+                '<div class="space-y-5">' + W.aboutParagraphs.map(function(p, i) {
+                    return '<p class="section-desc reveal reveal-delay-' + (i + 2) + '">' + p + '</p>';
+                }).join('') + '</div>' +
+            '</div>' +
+            '<div class="grid grid-cols-2 gap-4">' + W.aboutCards.map(function(c, i) {
+                return '<div class="stat-card reveal reveal-delay-' + (i + 2) + ' ' + floats[i] + '">' +
+                    '<iconify-icon icon="' + c.icon + '" width="28" style="color:#60a5fa" class="mb-4 block"></iconify-icon>' +
+                    '<div class="text-white font-semibold mb-1">' + c.title + '</div>' +
+                    '<div class="text-slate-500 text-sm">' + c.desc + '</div>' +
+                '</div>';
+            }).join('') + '</div>' +
+        '</div>';
+
+    // ── COUNTRIES ──
+    var cDelays = ['1','2','3','4','1','2','3','4'];
+    var membersHtml = function(members) {
+        return members.map(function(m) {
+            var dcLine = m.dc ? '<div class="member-dc">' + m.dc + '</div>' : '';
+            return '<div class="member-row">' +
+                renderAvatar(m) +
+                '<div class="member-info">' +
+                    '<div class="member-mc">' + m.mc + '</div>' +
+                    dcLine +
+                '</div>' +
+                '<span class="member-role ' + roleClass(m.role) + '">' + roleLabel(m.role) + '</span>' +
+            '</div>';
+        }).join('');
+    };
+
+    document.getElementById('countries-content').innerHTML =
+        '<div class="text-center mb-16">' +
+            '<span class="section-label reveal mb-6 inline-flex"><iconify-icon icon="mdi:flag-variant" width="14"></iconify-icon>Państwa Świata</span>' +
+            '<h2 class="section-title reveal reveal-delay-1 mb-4">Osiem państw,<br>jedna mapa</h2>' +
+            '<p class="section-desc reveal reveal-delay-2 mx-auto">Każde państwo ma unikalny styl, przywódcę i historię. Odkryj je wszystkie.</p>' +
+        '</div>' +
+        '<div class="grid md:grid-cols-2 gap-8">' + CONFIG.countries.map(function(c, i) {
+            return '<div class="country-card reveal reveal-delay-' + cDelays[i] + '">' +
+                '<div class="card-banner-wrap">' +
+                    '<img src="' + c.bannerUrl + '" alt="' + c.name + '" class="card-banner" loading="lazy">' +
+                '</div>' +
+                '<div class="card-body">' +
+                    '<div class="flex flex-wrap items-center gap-3 mb-2">' +
+                        '<h3 class="text-white font-bold text-xl leading-tight">' + c.name + '</h3>' +
+                    '</div>' +
+                    '<span class="style-tag mb-4">' + c.style + '</span>' +
+                    '<div class="flex items-center gap-2 mb-4">' +
+                        '<iconify-icon icon="mdi:map-marker" width="15" style="color:#34d399"></iconify-icon>' +
+                        '<span class="coords">' + c.coords + '</span>' +
+                    '</div>' +
+                    '<p class="text-slate-400 text-sm leading-relaxed mb-2">' + c.description + '</p>' +
+                    '<div class="members-divider"></div>' +
+                    '<div class="members-label"><iconify-icon icon="mdi:account-group" width="12"></iconify-icon>Członkowie</div>' +
+                    '<div class="space-y-1 mt-1">' + membersHtml(c.members) + '</div>' +
+                '</div>' +
+            '</div>';
+        }).join('') + '</div>';
+
+    // ── MAP ──
+    document.getElementById('map-content').innerHTML =
+        '<span class="section-label reveal mb-6 inline-flex"><iconify-icon icon="mdi:map-outline" width="14"></iconify-icon>Mapa Świata</span>' +
+        '<h2 class="section-title reveal reveal-delay-1 mb-4">Interaktywna mapa<br>' + W.name + '</h2>' +
+        '<p class="section-desc reveal reveal-delay-2 mx-auto mb-10">Odkryj każdy zakątek świata. Zobacz państwa, budowle, szlaki i tereny, które kształtują historię tego sezonu.</p>' +
+        '<a href="' + L.mapUrl + '" target="_blank" class="btn-primary reveal reveal-delay-3" style="padding:20px 48px;font-size:17px">' +
+            '<iconify-icon icon="mdi:open-in-new" width="22"></iconify-icon>Otwórz Mapę' +
+        '</a>';
+
+    // ── GALLERY ──
+    var gDelays = ['1','2','3','1','2','3','1','2','3','1','2','3'];
+    document.getElementById('gallery-content').innerHTML =
+        '<div class="text-center mb-16">' +
+            '<span class="section-label reveal mb-6 inline-flex"><iconify-icon icon="mdi:image-multiple-outline" width="14"></iconify-icon>Galeria</span>' +
+            '<h2 class="section-title reveal reveal-delay-1 mb-4">Świat w obrazach</h2>' +
+            '<p class="section-desc reveal reveal-delay-2 mx-auto">Najlepsze momenty i budowle z czwartego sezonu SPL.</p>' +
+        '</div>' +
+        '<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">' + CONFIG.gallery.map(function(g, i) {
+            return '<div class="gallery-item reveal reveal-delay-' + (gDelays[i] || '3') + '" onclick="openLightbox(this)">' +
+                '<img src="' + g.url + '" alt="' + g.alt + '" loading="lazy">' +
+                '<div class="zoom-icon"><iconify-icon icon="mdi:magnify-plus-outline" width="36"></iconify-icon></div>' +
+            '</div>';
+        }).join('') + '</div>';
+
+    // ── FOOTER ──
+    document.getElementById('footer-content').innerHTML =
+        '<div class="max-w-7xl mx-auto">' +
+            '<div class="flex flex-col md:flex-row items-center justify-between gap-8">' +
+                '<div class="flex items-center gap-3">' +
+                    '<div class="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center font-bold text-white text-sm">' + W.shortName + '</div>' +
+                    '<div>' +
+                        '<div class="text-white font-bold text-lg tracking-tight">' + W.name + '</div>' +
+                        '<div class="text-slate-600 text-xs">Prywatny projekt społeczności PakoTeam</div>' +
+                    '</div>' +
+                '</div>' +
+                '<a href="' + L.mapUrl + '" target="_blank" class="btn-secondary" style="padding:10px 20px;font-size:13px"><iconify-icon icon="mdi:map-marker-radius" width="16"></iconify-icon>Mapa Świata</a>' +
+            '</div>' +
+            '<div class="divider my-8"></div>' +
+            '<div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-600 text-xs">' +
+                '<p>&copy; 2025 ' + W.name + ' — Prywatny świat Minecraft. Wszelkie prawa zastrzeżone.</p>' +
+                '<p>Nie jest to publiczny serwer Minecraft.</p>' +
+            '</div>' +
+        '</div>';
+})();
+
+
+// ─────────────────────────────────────────────
+// PARTICLES
+// ─────────────────────────────────────────────
+(function() {
+    var canvas = document.getElementById('particles-canvas');
+    var ctx = canvas.getContext('2d');
+    var particles = [], w, h;
+    function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+    function Particle() { this.reset(); }
+    Particle.prototype.reset = function() {
+        this.x = Math.random() * w;
+        this.y = Math.random() * h;
+        this.size = Math.random() * 1.5 + 0.3;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.opacity = Math.random() * 0.4 + 0.1;
+    };
+    Particle.prototype.update = function() {
+        this.x += this.speedX; this.y += this.speedY;
+        if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+    };
+    Particle.prototype.draw = function() {
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(96,165,250,' + this.opacity + ')'; ctx.fill();
+    };
+    var count = Math.min(80, Math.floor((w * h) / 15000));
+    for (var i = 0; i < count; i++) particles.push(new Particle());
+    function animate() {
+        ctx.clearRect(0, 0, w, h);
+        for (var i = 0; i < particles.length; i++) { particles[i].update(); particles[i].draw(); }
+        for (var i = 0; i < particles.length; i++) {
+            for (var j = i + 1; j < particles.length; j++) {
+                var dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+                var dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 150) {
+                    ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = 'rgba(59,130,246,' + (0.06 * (1 - dist / 150)) + ')'; ctx.lineWidth = 0.5; ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(animate);
+    }
+    animate();
+})();
+
+
+// ─────────────────────────────────────────────
+// SCROLL REVEAL
+// ─────────────────────────────────────────────
+var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(function(el) { revealObserver.observe(el); });
+
+
+// ─────────────────────────────────────────────
+// LIGHTBOX
+// ─────────────────────────────────────────────
+function openLightbox(item) {
+    var img = item.querySelector('img');
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox-img').alt = img.alt;
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+
+
+// ─────────────────────────────────────────────
+// MOBILE NAV
+// ─────────────────────────────────────────────
+function toggleMobile() {
+    document.getElementById('hamburger').classList.toggle('active');
+    document.getElementById('mobileMenu').classList.toggle('active');
+    document.body.style.overflow = document.getElementById('mobileMenu').classList.contains('active') ? 'hidden' : '';
+}
+function closeMobile() {
+    document.getElementById('hamburger').classList.remove('active');
+    document.getElementById('mobileMenu').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+
+// ─────────────────────────────────────────────
+// ACTIVE NAV LINK ON SCROLL
+// ─────────────────────────────────────────────
+var sections = document.querySelectorAll('section[id]');
+var navLinks = document.querySelectorAll('.nav-link');
+window.addEventListener('scroll', function() {
+    var current = '';
+    sections.forEach(function(s) { if (scrollY >= s.offsetTop - 100) current = s.id; });
+    navLinks.forEach(function(link) {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+});
+
+
+// ─────────────────────────────────────────────
+// NAV STYLE ON SCROLL
+// ─────────────────────────────────────────────
+window.addEventListener('scroll', function() {
+    var nav = document.querySelector('nav');
+    if (window.scrollY > 50) {
+        nav.style.borderBottomColor = 'rgba(59,130,246,0.12)';
+        nav.style.background = 'rgba(5,10,24,0.85)';
+    } else {
+        nav.style.borderBottomColor = 'rgba(59,130,246,0.08)';
+        nav.style.background = 'rgba(5,10,24,0.7)';
+    }
+});
+</script>
+
+</body>
+</html>
