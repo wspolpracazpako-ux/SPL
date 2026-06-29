@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPL Sezon 4</title>
+    <title>SPL Sezon 4 — Prywatny Świat Minecraft</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -82,13 +82,23 @@
         .stat-card:hover{border-color:rgba(59,130,246,0.2);transform:translateY(-4px);box-shadow:0 0 30px rgba(59,130,246,0.08)}
         .stat-card:hover::after{top:-30%;right:-30%}
 
-        .gallery-item{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;aspect-ratio:16/10}
-        .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1)}
-        .gallery-item:hover img{transform:scale(1.08)}
-        .gallery-item::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(5,10,24,0.6) 0%,transparent 50%);opacity:0;transition:opacity 0.4s}
-        .gallery-item:hover::after{opacity:1}
-        .gallery-item .zoom-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.8);opacity:0;transition:all 0.4s;z-index:2;color:#fff}
-        .gallery-item:hover .zoom-icon{opacity:1;transform:translate(-50%,-50%) scale(1)}
+        .moment-card{background:linear-gradient(160deg,rgba(15,23,42,0.9) 0%,rgba(10,25,41,0.95) 100%);border:1px solid rgba(59,130,246,0.07);border-radius:16px;overflow:hidden;transition:all 0.5s cubic-bezier(0.4,0,0.2,1);position:relative}
+        .moment-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,0),transparent);transition:all 0.5s;z-index:2}
+        .moment-card:hover{transform:translateY(-5px);border-color:rgba(59,130,246,0.2);box-shadow:0 0 40px rgba(59,130,246,0.07),0 20px 40px rgba(0,0,0,0.35)}
+        .moment-card:hover::before{background:linear-gradient(90deg,transparent,rgba(59,130,246,0.4),transparent)}
+        .moment-img-wrap{overflow:hidden;position:relative;cursor:pointer}
+        .moment-img-wrap img{width:100%;height:220px;object-fit:cover;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1)}
+        .moment-card:hover .moment-img-wrap img{transform:scale(1.05)}
+        .moment-img-wrap::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(to top,rgba(10,25,41,0.95),transparent)}
+        .moment-img-wrap .zoom-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.8);opacity:0;transition:all 0.4s;z-index:2;color:#fff}
+        .moment-img-wrap:hover .zoom-icon{opacity:1;transform:translate(-50%,-50%) scale(1)}
+        .moment-body{padding:20px 24px 24px}
+        .moment-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:10px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:10px}
+        .tag-war{background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.12)}
+        .tag-event{background:rgba(168,85,247,0.1);color:#c084fc;border:1px solid rgba(168,85,247,0.12)}
+        .tag-build{background:rgba(59,130,246,0.1);color:#60a5fa;border:1px solid rgba(59,130,246,0.12)}
+        .tag-fun{background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.12)}
+        .tag-alliance{background:rgba(16,185,129,0.1);color:#34d399;border:1px solid rgba(16,185,129,0.12)}
 
         .lightbox{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.92);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all 0.4s;cursor:zoom-out}
         .lightbox.active{opacity:1;visibility:visible}
@@ -129,6 +139,8 @@
             .section-title{font-size:28px}
             .hero-title{font-size:42px !important}
             .card-body{padding:20px}
+            .moment-img-wrap img{height:180px}
+            .moment-body{padding:16px 18px 20px}
         }
 
         .style-tag{display:inline-block;padding:4px 12px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.15);border-radius:6px;font-size:11px;font-weight:600;color:#60a5fa;letter-spacing:0.04em;text-transform:uppercase}
@@ -182,9 +194,9 @@
     <div class="max-w-4xl mx-auto text-center" id="map-content"></div>
 </section>
 
-<section id="gallery" class="relative py-24 md:py-32 px-6">
+<section id="moments" class="relative py-24 md:py-32 px-6">
     <div class="divider max-w-7xl mx-auto mb-24"></div>
-    <div class="max-w-7xl mx-auto" id="gallery-content"></div>
+    <div class="max-w-7xl mx-auto" id="moments-content"></div>
 </section>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
@@ -220,10 +232,10 @@ const CONFIG = {
     world: {
         name: "SPL Sezon 4",
         shortName: "S4",
-        heroSubtitle: "Czwarty sezon prywatnego świata tworzonego przez Pako.Survival oparty na państwach, wojnych, sojuszach i niezwykłych budowlach — wszystko w jednym miejscu.",
+        heroSubtitle: "Czwarty sezon prywatnego świata tworzonego przez Pako.Survival oparty na państwach, wojnach, sojuszach i niezwykłych budowlach — wszystko w jednym miejscu.",
         aboutTitle: "Świat tworzony<br>przez graczy",
         aboutParagraphs: [
-            'SPL Sezon 4 to <strong class="text-blue-300">prywatny świat Minecraft</strong>, w którym jest 8 państw, buduje miasta i kształtuje historię. To nie jest publiczny serwer — to zamknięty projekt dla społeczności <strong class="text-blue-300">PakoTeam</strong>i nie tylko.',
+            'SPL Sezon 4 to <strong class="text-blue-300">prywatny świat Minecraft</strong>, w którym jest 8 państw, buduje miasta i kształtuje historię. To nie jest publiczny serwer — to zamknięty projekt dla społeczności <strong class="text-blue-300">PakoTeam</strong> i nie tylko.',
             'Każdy sezon wprowadza nową mapę, nowe państwa i nowe historie. Sezon 4 kontynuuje tę tradycję, oferując jeszcze bardziej rozbudowany świat z unikalnymi państwami i skomplikowanymi relacjami dyplomatycznymi.',
             'Wszystkie państwa są prowadzone przez prawdziwych graczy. Każda decyzja, każda wojna i każdy sojusz wynikają z ich działań — nie ma tu skryptów ani z góry zaplanowanych wydarzeń.'
         ],
@@ -239,17 +251,11 @@ const CONFIG = {
     // 🔗 LINKI
     // ─────────────────────────────────────────
     links: {
-        mapUrl: "https://twoj-link-do-mapy.pl"  // ✏️ ZMIEŃ LINK DO MAPY
+        mapUrl: "https://twoj-link-do-mapy.pl"
     },
 
     // ─────────────────────────────────────────
-    // 🏳️ PAŃSTWA (8 sztuk)
-    //
-    // Każdy członek ma pola:
-    //   mc     — nick Minecraft
-    //   dc     — nick Discord (lub null jeśli brak)
-    //   role   — rola: "lider" | "budowniczy" | "wojownik" | "dyplomata" | "członek"
-    //   avatar — URL do avatara (lub null — wtedy pokaże się pierwsza litera MC nicku)
+    // 🏳️ PAŃSTWA
     // ─────────────────────────────────────────
     countries: [
         {
@@ -260,9 +266,9 @@ const CONFIG = {
             bannerUrl: "https://picsum.photos/seed/imperium-solarii/800/400.jpg",
             members: [
                 { mc: "PakoYouTube",    dc: "pakoyoutube",    role: "lider",     avatar: null },
-                { mc: "CzerwonyX",    dc: "czerwonyx",  role: "członek", avatar: null },
-                { mc: "LadyAria",     dc: "ladyaria",   role: "członek", avatar: null },
-                { mc: "IronForge",    dc: "ironforge",  role: "członek",  avatar: null }
+                { mc: "CzerwonyX",      dc: "czerwonyx",      role: "członek",   avatar: null },
+                { mc: "LadyAria",       dc: "ladyaria",       role: "członek",   avatar: null },
+                { mc: "IronForge",      dc: "ironforge",      role: "członek",   avatar: null }
             ]
         },
         {
@@ -273,9 +279,9 @@ const CONFIG = {
             bannerUrl: "https://picsum.photos/seed/nordheim-frost/800/400.jpg",
             members: [
                 { mc: "Oskar9D_Pro",  dc: "oskar9d_yt", role: "lider",     avatar: null },
-                { mc: "Brak",      dc: "ddd",    role: "członek", avatar: null },
-                { mc: "Brak",   dc: "Brak", role: "wojownik",  avatar: null },
-                { mc: "Brak",    dc: "Brak",  role: "członek",   avatar: null }
+                { mc: "Brak",        dc: "ddd",        role: "członek",   avatar: null },
+                { mc: "Brak",        dc: "Brak",       role: "wojownik",  avatar: null },
+                { mc: "Brak",        dc: "Brak",       role: "członek",   avatar: null }
             ]
         },
         {
@@ -286,9 +292,9 @@ const CONFIG = {
             bannerUrl: "https://picsum.photos/seed/valerath-elves/800/400.jpg",
             members: [
                 { mc: "Brak",  dc: "Brak", role: "lider",     avatar: null },
-                { mc: "Brak",      dc: "Brak",    role: "członek", avatar: null },
-                { mc: "Brak",   dc: "Brak", role: "członek",  avatar: null },
-                { mc: "Brak",    dc: "Brak",  role: "członek",   avatar: null }
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null },
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null },
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null }
             ]
         },
         {
@@ -299,9 +305,9 @@ const CONFIG = {
             bannerUrl: "https://picsum.photos/seed/valerath-elves/800/400.jpg",
             members: [
                 { mc: "Brak",  dc: "Brak", role: "lider",     avatar: null },
-                { mc: "Brak",      dc: "Brak",    role: "członek", avatar: null },
-                { mc: "Brak",   dc: "Brak", role: "członek",  avatar: null },
-                { mc: "Brak",    dc: "Brak",  role: "członek",   avatar: null }
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null },
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null },
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null }
             ]
         },
         {
@@ -312,9 +318,9 @@ const CONFIG = {
             bannerUrl: "https://picsum.photos/seed/valerath-elves/800/400.jpg",
             members: [
                 { mc: "Brak",  dc: "Brak", role: "lider",     avatar: null },
-                { mc: "Brak",      dc: "Brak",    role: "członek", avatar: null },
-                { mc: "Brak",   dc: "Brak", role: "członek",  avatar: null },
-                { mc: "Brak",    dc: "Brak",  role: "członek",   avatar: null }
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null },
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null },
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null }
             ]
         },
         {
@@ -325,9 +331,9 @@ const CONFIG = {
             bannerUrl: "https://picsum.photos/seed/valerath-elves/800/400.jpg",
             members: [
                 { mc: "Brak",  dc: "Brak", role: "lider",     avatar: null },
-                { mc: "Brak",      dc: "Brak",    role: "członek", avatar: null },
-                { mc: "Brak",   dc: "Brak", role: "członek",  avatar: null },
-                { mc: "Brak",    dc: "Brak",  role: "członek",   avatar: null }
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null },
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null },
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null }
             ]
         },
         {
@@ -338,9 +344,9 @@ const CONFIG = {
             bannerUrl: "https://picsum.photos/seed/valerath-elves/800/400.jpg",
             members: [
                 { mc: "Brak",  dc: "Brak", role: "lider",     avatar: null },
-                { mc: "Brak",      dc: "Brak",    role: "członek", avatar: null },
-                { mc: "Brak",   dc: "Brak", role: "członek",  avatar: null },
-                { mc: "Brak",    dc: "Brak",  role: "członek",   avatar: null }
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null },
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null },
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null }
             ]
         },
         {
@@ -351,18 +357,57 @@ const CONFIG = {
             bannerUrl: "https://picsum.photos/seed/valerath-elves/800/400.jpg",
             members: [
                 { mc: "Brak",  dc: "Brak", role: "lider",     avatar: null },
-                { mc: "Brak",      dc: "Brak",    role: "członek", avatar: null },
-                { mc: "Brak",   dc: "Brak", role: "członek",  avatar: null },
-                { mc: "Brak",    dc: "Brak",  role: "członek",   avatar: null }
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null },
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null },
+                { mc: "Brak",  dc: "Brak", role: "członek",   avatar: null }
             ]
         }
     ],
 
     // ─────────────────────────────────────────
-    // 🖼️ GALERIA — dodawaj/usuwaj zdjęcia
+    // 🔥 NAJLEPSZE MOMENTY SPL
+    //
+    // tag: "war" | "event" | "build" | "fun" | "alliance"
     // ─────────────────────────────────────────
-    gallery: [
-        { url: "https://picsum.photos/seed/spl4-stolica/800/500.jpg",        alt: "Start Serwera SPL" },
+    moments: [
+        {
+            url: "https://picsum.photos/seed/spl-first-war/800/500.jpg",
+            title: "Pierwsza wojna między państwami",
+            description: "Historyczna bitwa, która zmieniła układ sił na mapie. Dwa państwa starły się o terytorium przy granicy, a wynik przeszedł najśmielsze oczekiwania.",
+            tag: "war"
+        },
+        {
+            url: "https://picsum.photos/seed/spl-nether-raid/800/500.jpg",
+            title: "Wspólna wyprawa do Netheru",
+            description: "Kilku graczy z różnych państw zjednoczyło się, by wkroczyć do Netheru. Ekspedycja przyniosła surowce, ale też nieoczekiwane niebezpieczeństwa.",
+            tag: "event"
+        },
+        {
+            url: "https://picsum.photos/seed/spl-first-alliance/800/500.jpg",
+            title: "Pierwsze sojusze zawarte",
+            description: "Po tygodniach negocjacji dwa państwa podpisały pierwszy oficjalny traktat sojuszniczy. Ceremonia odbyła się w neutralnej strefie na mapie.",
+            tag: "alliance"
+        },
+        {
+            url: "https://picsum.photos/seed/spl-funny-moment/800/500.jpg",
+            title: "Śmieszna sytuacja na serwerze",
+            description: "Nieplanowany incydent z creeparem i systemem redstone, który wywołał reakcję łańcuchową. Nikt się nie skrzywdził, ale śmiechu było co niemiar.",
+            tag: "fun"
+        },
+        {
+            url: "https://picsum.photos/seed/spl-great-build/800/500.jpg",
+            title: "Ukończenie największej budowli sezonu",
+            description: "Po trzech tygodniach budowy, jedno z państw ukończyło monumentalną strukturę, która stała się punktem orientacyjnym całej mapy.",
+            tag: "build"
+        },
+        {
+            url: "https://picsum.photos/seed/spl-raid-event/800/500.jpg",
+            title: "Wielki raid na bazę wroga",
+            description: "Zaskakujący nocny atak zakończony sukcesem. Atakujący zdobyli cenne zasoby, ale stracili część ekwipunku w desperackiej obronie obrońców.",
+            tag: "war"
+        }
+        // ✏️ DODAJ NOWY MOMENT:
+        // { url: "LINK_DO_ZDJĘCIA", title: "Tytuł", description: "Opis...", tag: "war" }
     ],
 
     // ─────────────────────────────────────────
@@ -372,7 +417,7 @@ const CONFIG = {
         { label: "O Świecie",   href: "#about" },
         { label: "Państwa",     href: "#countries" },
         { label: "Mapa",        href: "#map" },
-        { label: "Galeria - Najlepsze Momenty SPL",     href: "#gallery" }
+        { label: "Momenty",     href: "#moments" }
     ]
 };
 
@@ -382,52 +427,38 @@ const CONFIG = {
    ============================================ */
 
 
-// ─────────────────────────────────────────────
-// POMOCNIK: RENDEROWANIE AVATARA CZŁONKA
-// ─────────────────────────────────────────────
 function renderAvatar(member) {
     if (member.avatar) {
         return '<div class="member-avatar"><img src="' + member.avatar + '" alt="' + member.mc + '"></div>';
     }
-    const letter = member.mc.charAt(0).toUpperCase();
+    var letter = member.mc.charAt(0).toUpperCase();
     return '<div class="member-avatar">' + letter + '</div>';
 }
 
-// ─────────────────────────────────────────────
-// POMOCNIK: KLASA ROLI
-// ─────────────────────────────────────────────
 function roleClass(role) {
-    const map = {
-        'lider':     'role-leader',
-        'budowniczy':'role-builder',
-        'wojownik':  'role-warrior',
-        'dyplomata': 'role-diplomat',
-        'członek':   'role-member'
-    };
+    var map = { 'lider':'role-leader','budowniczy':'role-builder','wojownik':'role-warrior','dyplomata':'role-diplomat','członek':'role-member' };
     return map[role] || 'role-member';
 }
 
-// ─────────────────────────────────────────────
-// POMOCNIK: ETYKIETA ROLI
-// ─────────────────────────────────────────────
 function roleLabel(role) {
-    const map = {
-        'lider':     'Lider',
-        'budowniczy':'Budowniczy',
-        'wojownik':  'Wojownik',
-        'dyplomata': 'Dyplomata',
-        'członek':   'Członek'
-    };
+    var map = { 'lider':'Lider','budowniczy':'Budowniczy','wojownik':'Wojownik','dyplomata':'Dyplomata','członek':'Członek' };
     return map[role] || 'Członek';
 }
 
+function momentTagClass(tag) {
+    var map = { 'war':'tag-war','event':'tag-event','build':'tag-build','fun':'tag-fun','alliance':'tag-alliance' };
+    return map[tag] || 'tag-event';
+}
 
-// ─────────────────────────────────────────────
-// RENDEROWANIE CAŁEJ STRONY
-// ─────────────────────────────────────────────
+function momentTagLabel(tag) {
+    var map = { 'war':'Wojna','event':'Wydarzenie','build':'Budowa','fun':'Śmieszne','alliance':'Sojusz' };
+    return map[tag] || 'Wydarzenie';
+}
+
+
 (function renderAll() {
-    const W = CONFIG.world;
-    const L = CONFIG.links;
+    var W = CONFIG.world;
+    var L = CONFIG.links;
 
     // ── NAV LOGO ──
     document.getElementById('nav-logo').innerHTML =
@@ -528,18 +559,25 @@ function roleLabel(role) {
             '<iconify-icon icon="mdi:open-in-new" width="22"></iconify-icon>Otwórz Mapę' +
         '</a>';
 
-    // ── GALLERY ──
-    var gDelays = ['1','2','3','1','2','3','1','2','3','1','2','3'];
-    document.getElementById('gallery-content').innerHTML =
+    // ── MOMENTS ──
+    var mDelays = ['1','2','3','1','2','3','1','2','3','1','2','3'];
+    document.getElementById('moments-content').innerHTML =
         '<div class="text-center mb-16">' +
-            '<span class="section-label reveal mb-6 inline-flex"><iconify-icon icon="mdi:image-multiple-outline" width="14"></iconify-icon>Galeria</span>' +
-            '<h2 class="section-title reveal reveal-delay-1 mb-4">Świat w obrazach</h2>' +
-            '<p class="section-desc reveal reveal-delay-2 mx-auto">Najlepsze momenty i budowle z czwartego sezonu SPL.</p>' +
+            '<span class="section-label reveal mb-6 inline-flex"><iconify-icon icon="mdi:star-four-points" width="14"></iconify-icon>Najlepsze Momenty</span>' +
+            '<h2 class="section-title reveal reveal-delay-1 mb-4">Historia świata<br>w wydarzeniach</h2>' +
+            '<p class="section-desc reveal reveal-delay-2 mx-auto">Wojny, sojusze, wyprawy i śmieszne sytuacje — najciekawsze momenty z sezonu SPL.</p>' +
         '</div>' +
-        '<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">' + CONFIG.gallery.map(function(g, i) {
-            return '<div class="gallery-item reveal reveal-delay-' + (gDelays[i] || '3') + '" onclick="openLightbox(this)">' +
-                '<img src="' + g.url + '" alt="' + g.alt + '" loading="lazy">' +
-                '<div class="zoom-icon"><iconify-icon icon="mdi:magnify-plus-outline" width="36"></iconify-icon></div>' +
+        '<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">' + CONFIG.moments.map(function(m, i) {
+            return '<div class="moment-card reveal reveal-delay-' + (mDelays[i] || '3') + '">' +
+                '<div class="moment-img-wrap" onclick="openLightbox(this)">' +
+                    '<img src="' + m.url + '" alt="' + m.title + '" loading="lazy">' +
+                    '<div class="zoom-icon"><iconify-icon icon="mdi:magnify-plus-outline" width="36"></iconify-icon></div>' +
+                '</div>' +
+                '<div class="moment-body">' +
+                    '<span class="moment-tag ' + momentTagClass(m.tag) + '">' + momentTagLabel(m.tag) + '</span>' +
+                    '<h4 class="text-white font-semibold text-base mb-2 leading-snug">' + m.title + '</h4>' +
+                    '<p class="text-slate-500 text-sm leading-relaxed">' + m.description + '</p>' +
+                '</div>' +
             '</div>';
         }).join('') + '</div>';
 
